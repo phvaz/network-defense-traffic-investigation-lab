@@ -1,71 +1,109 @@
-# Module 00 — Lab Environment
+# Network Defense & Traffic Investigation Lab
 
-## Objective
+**A hands-on lab building network knowledge for security investigation: from how two hosts talk on a LAN, to traffic analysis, reconnaissance, detection, and a simulated DFIR network investigation.**
 
-Set up an isolated virtual lab in which two hosts can communicate with each other, and document how the VirtualBox network modes affect connectivity and isolation.
+`VirtualBox · Kali Linux · Windows 10` · `Wireshark · Nmap · Suricata` · `RFC 3227 · ISO/IEC 27037 · NIST SP 800-86 / 800-61` · `Status: In progress — Module 01`
 
 ---
 
-## Lab architecture
+## Overview
+
+This project builds and investigates a small corporate network in a controlled lab. The scenario: I have been engaged to assess the infrastructure of a small company that has an administrative network, an employee network, internal servers, a guest network, and an internet connection. The mission is to build that infrastructure, understand how it works, implement security controls, and then investigate suspicious activity on it.
+
+The goal is **not** to become a network administrator. It is to understand networking well enough to **read network traffic, recognise abnormal behaviour, and investigate how an attack develops** inside a corporate environment, with the analyst mindset of DFIR.
+
+Every lab follows the same discipline used in my forensic investigations:
+
+- **Observed fact → technical interpretation → conclusion.** Findings carry exactly the strength the evidence permits ("consistent with", not "proves").
+- **Evidence integrity.** Every packet capture is saved and SHA-256 hashed immediately, with a hash manifest so results can be verified independently.
+- **Troubleshooting is documented, not hidden.** Failures, hypotheses, and how each one was verified are part of the record.
+
+---
+
+## Roadmap
+
+| Module | Focus | Main tools | Status |
+|---|---|---|---|
+| [**00 — Lab Environment**](module00-lab-environment/) | VMs, VirtualBox network modes, isolation | VirtualBox | ✅ Complete |
+| [**01 — Networking Fundamentals**](module01-networking-fundamentals/) | IPv4, subnetting, MAC, ARP, ICMP, DHCP, DNS, TCP/UDP | `ip`, `ipconfig`, Wireshark | 🟡 In progress (LAB 01 complete) |
+| [**02 — Network Architecture**](module02-network-architecture/) | VLANs, trunking, inter-VLAN routing, NAT, ACLs | Cisco Packet Tracer | ⬜ Planned |
+| [**03 — Traffic Analysis**](module03-traffic-analysis/) | PCAP analysis, TCP/TLS handshakes, DNS, HTTP, C2/exfiltration patterns | Wireshark | ⬜ Planned |
+| [**04 — Network Reconnaissance**](module04-network-reconnaissance/) | Host discovery, port/service/OS detection, exposure mapping | Nmap | ⬜ Planned |
+| [**05 — Network Defense**](module05-network-defense/) | Firewalling, IDS rules, alert triage, alert ↔ PCAP correlation | nftables/UFW, Suricata | ⬜ Planned |
+| [**06 — DFIR Network Investigation**](module06-dfir-investigation/) | Simulated incident: timeline, IOCs, hypotheses, formal report | All of the above | ⬜ Planned |
+
+---
+
+## Target architecture
+
+The corporate network to be built and investigated:
+
+| Segment | VLAN | Hosts |
+|---|---|---|
+| Administration | 10 | Admin workstation |
+| Employees | 20 | Two workstations |
+| Servers | 30 | Ubuntu Server |
+| Guests | 40 | Guest workstation |
+
+With switching, routing, a firewall, IPv4 addressing, DHCP, DNS, NAT, ACLs, and traffic monitoring. The design is documented in Module 02.
+
+---
+
+## Completed labs
+
+| Lab | What it demonstrates | Evidence |
+|---|---|---|
+| [**LAB 01 — Understanding Network Communication**](module01-networking-fundamentals/lab01-network-communication/) | ARP resolution before ICMP; broadcast vs unicast; ARP cache as volatile evidence; cross-source MAC correlation; TTL as an OS indicator; layer-2 troubleshooting with `ip neigh` | `lab01-arp-icmp.pcapng` (SHA-256 verified) |
+
+---
+
+## Lab environment
+
+| Component | Detail |
+|---|---|
+| Analyst VM | Kali Linux 2026.1 |
+| Target VM | Windows 10 Enterprise LTSC |
+| Hypervisor | VirtualBox |
+| Lab network | Host-only, `192.168.56.0/24`, for all lab traffic. A separate NAT adapter per VM is used only for updates and tool installation. |
+| Scope rule | All scanning and testing is limited to VMs I own. No third-party networks are scanned. |
+
+---
+
+## Repository structure
 
 ```
-┌──────────────────────────────────────────────────────┐
-│                    HOST (Windows)                    │
-│                      VirtualBox                      │
-│                                                      │
-│  ┌──────────────────────┐  ┌──────────────────────┐  │
-│  │  Windows 10 (target) │  │  Kali 2026.1 analyst │  │
-│  │                      │  │                      │  │
-│  │  NIC 1: NAT          │  │  NIC 1: Host-only    │  │
-│  │    10.0.2.15         │  │    192.168.56.104    │  │
-│  │  NIC 2: Host-only    │  │    (DHCP)            │  │
-│  │    192.168.56.101    │  │                      │  │
-│  │    (static)          │  │                      │  │
-│  └──────────────────────┘  └──────────────────────┘  │
-│                                                      │
-│   Host-only network: 192.168.56.0/24                 │
-│   DHCP server (VirtualBox): 192.168.56.100           │
-└──────────────────────────────────────────────────────┘
+network-defense-traffic-investigation-lab/
+├── README.md                              ← you are here
+├── LICENSE
+├── module00-lab-environment/              ← VMs, network modes, isolation
+├── module01-networking-fundamentals/
+│   ├── README.md                          ← module overview and lab index
+│   └── lab01-network-communication/
+│       ├── README.md                      ← lab write-up
+│       ├── screenshots/
+│       └── evidence/                      ← PCAP + SHA256SUMS
+├── module02-network-architecture/
+├── module03-traffic-analysis/
+├── module04-network-reconnaissance/
+├── module05-network-defense/
+└── module06-dfir-investigation/
 ```
 
----
-
-## Hosts
-
-| Field | Windows (target) | Kali (analyst) |
-|---|---|---|
-| Operating system | Windows 10 Enterprise LTSC | Kali Linux 2026.1 |
-| Lab interface | Ethernet 2, `08:00:27:46:67:11` | eth0, `08:00:27:8a:35:d2` |
-| Lab IPv4 | `192.168.56.101/24` (static) | `192.168.56.104/24` (DHCP) |
-| Internet interface | Ethernet (NAT), `10.0.2.15` | None (see pending item below) |
-
-![Windows VM — Adapter 2 attached to the Host-only network](screenshots/01-windows-adapter2-hostonly.png)
+Each lab is self-contained: a write-up, screenshots, and the hashed evidence it analyses.
 
 ---
 
-## VirtualBox network modes
+## Standards referenced
 
-| Mode | What it is | Observed behaviour |
-|---|---|---|
-| **NAT** | A private "router" for each VM, used to reach the internet through the host | Each VM gets its **own isolated** NAT. Kali and Windows both received `10.0.2.15` with no conflict, and they could **not** reach each other. |
-| **Host-only** | A private network **shared** by the VMs and the host, with no internet | Both VMs joined `192.168.56.0/24` and reached each other. |
-| **NAT Network** | A NAT shared by several VMs (closer to a real office network) | Not used yet. Candidate for later modules. |
-
-**Why Host-only for the lab:** it lets the VMs talk to each other while keeping all test traffic (scans, captures, simulated attacks) off the internet and off the physical home network.
-
-**Recommended layout per VM:** Adapter 1 = NAT (updates and tool installation), Adapter 2 = Host-only (lab traffic). The adapter order is a convention; what matters is the combination.
-
----
-
-## Isolation and scope
-
-- All testing targets only the VMs in this lab.
-- The Host-only network has no route to the internet.
-- Outputs that reveal the physical network (for example, the host's ISP DNS servers that appear in the Windows NAT adapter) are **not** published.
+| Standard | Role in this project |
+|---|---|
+| RFC 3227 | Evidence collection and order of volatility (ARP cache, live connections, captures) |
+| ISO/IEC 27037 | Identification, collection and preservation of digital evidence (save and hash captures immediately) |
+| ISO/IEC 27042 | Analysis and interpretation of digital evidence |
+| NIST SP 800-86 | Integrating forensic techniques into incident response, with network traffic as a data source |
+| NIST SP 800-61 | Incident handling: detection, analysis, reporting (Modules 05–06) |
+| Protocol RFCs | RFC 826 (ARP), RFC 792 (ICMP), and others per lab, as the technical basis of each analysis |
 
 ---
 
-## Pending
-
-- [ ] Kali: restore Adapter 1 = NAT and add Adapter 2 = Host-only (Kali currently has no internet access).
-- [ ] Kali: install VirtualBox Guest Additions (`virtualbox-guest-x11`) for shared clipboard and drag-and-drop.
+*Network Defense & Traffic Investigation Lab. Built and documented by Paulo Vaz. All activity takes place in an isolated, self-owned virtual lab. No third-party systems are tested and no personal data is published.*
