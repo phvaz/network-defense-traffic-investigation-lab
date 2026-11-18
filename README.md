@@ -1,101 +1,111 @@
-# Module 00 — Lab Environment
+# Network Defense & Traffic Investigation Lab
 
-## Objective
+**A hands-on lab building network knowledge for security investigation: from how two hosts talk on a LAN, to traffic analysis, reconnaissance, detection, and a simulated DFIR network investigation.**
 
-Set up an isolated virtual lab in which two hosts can communicate with each other, and document how the VirtualBox network modes affect connectivity and isolation.
-
----
-
-## Lab architecture
-
-```
-┌──────────────────────────────────────────────────────┐
-│                    HOST (Windows)                    │
-│                      VirtualBox                      │
-│                                                      │
-│  ┌──────────────────────┐  ┌──────────────────────┐  │
-│  │  Windows 10 (target) │  │  Kali 2026.1 analyst │  │
-│  │                      │  │                      │  │
-│  │  NIC 1: NAT          │  │  NIC 1: NAT          │  │
-│  │    10.0.2.15         │  │    10.0.2.15         │  │
-│  │  NIC 2: Host-only    │  │  NIC 2: Host-only    │  │
-│  │    192.168.56.101    │  │    192.168.56.102    │  │
-│  │    (static)          │  │    (DHCP)            │  │
-│  └──────────────────────┘  └──────────────────────┘  │
-│                                                      │
-│   Host-only network: 192.168.56.0/24                 │
-│   DHCP server (VirtualBox): 192.168.56.100           │
-└──────────────────────────────────────────────────────┘
-```
+`VirtualBox · Kali Linux · Windows 10` · `Wireshark · Nmap · Suricata` · `RFC 3227 · ISO/IEC 27037 · NIST SP 800-86 / 800-61` · `Status: In progress — Module 01`
 
 ---
 
-## Hosts
+## Overview
 
-| Field | Windows (target) | Kali (analyst) |
+This project builds and investigates a small corporate network in a controlled lab. The scenario: I have been engaged to assess the infrastructure of a small company that has an administrative network, an employee network, internal servers, a guest network, and an internet connection. The mission is to build that infrastructure, understand how it works, implement security controls, and then investigate suspicious activity on it.
+
+The goal is **not** to become a network administrator. It is to understand networking well enough to **read network traffic, recognise abnormal behaviour, and investigate how an attack develops** inside a corporate environment, with the analyst mindset of DFIR.
+
+Every lab follows the same discipline used in my forensic investigations:
+
+- **Observed fact → technical interpretation → conclusion.** Findings carry exactly the strength the evidence permits ("consistent with", not "proves").
+- **Evidence integrity.** Every packet capture is saved and SHA-256 hashed immediately, with a hash manifest so results can be verified independently.
+- **Troubleshooting is documented, not hidden.** Failures, hypotheses, and how each one was verified are part of the record.
+
+---
+
+## Roadmap
+
+| Module | Focus | Main tools | Status |
+|---|---|---|---|
+| [**00 — Lab Environment**](module00-lab-environment/) | VMs, VirtualBox network modes, isolation | VirtualBox | ✅ Complete |
+| [**01 — Networking Fundamentals**](module01-networking-fundamentals/) | IPv4, subnetting, MAC, ARP, ICMP, DHCP, DNS, TCP/UDP | `ip`, `ipconfig`, Wireshark | 🟡 In progress (LABs 01–02 complete) |
+| [**02 — Network Architecture**](module02-network-architecture/) | VLANs, trunking, inter-VLAN routing, NAT, ACLs | Cisco Packet Tracer | ⬜ Planned |
+| [**03 — Traffic Analysis**](module03-traffic-analysis/) | PCAP analysis, TCP/TLS handshakes, DNS, HTTP, C2/exfiltration patterns | Wireshark | ⬜ Planned |
+| [**04 — Network Reconnaissance**](module04-network-reconnaissance/) | Host discovery, port/service/OS detection, exposure mapping | Nmap | ⬜ Planned |
+| [**05 — Network Defense**](module05-network-defense/) | Firewalling, IDS rules, alert triage, alert ↔ PCAP correlation | nftables/UFW, Suricata | ⬜ Planned |
+| [**06 — DFIR Network Investigation**](module06-dfir-investigation/) | Simulated incident: timeline, IOCs, hypotheses, formal report | All of the above | ⬜ Planned |
+
+---
+
+## Target architecture
+
+The corporate network to be built and investigated:
+
+| Segment | VLAN | Hosts |
 |---|---|---|
-| Operating system | Windows 10 Enterprise LTSC | Kali Linux 2026.1 |
-| Lab interface | Ethernet 2, `08:00:27:46:67:11` | eth1, `08:00:27:c3:37:eb` |
-| Lab IPv4 | `192.168.56.101/24` (static) | `192.168.56.102/24` (DHCP) |
-| Internet interface | Ethernet (NAT), `10.0.2.15` | eth0 (NAT), `08:00:27:8a:35:d2`, `10.0.2.15` |
-| Guest Additions | Installed | Installed (`virtualbox-guest-x11`) |
+| Administration | 10 | Admin workstation |
+| Employees | 20 | Two workstations |
+| Servers | 30 | Ubuntu Server |
+| Guests | 40 | Guest workstation |
 
-![Windows VM — Adapter 2 attached to the Host-only network](screenshots/01-windows-adapter2-hostonly.png)
+With switching, routing, a firewall, IPv4 addressing, DHCP, DNS, NAT, ACLs, and traffic monitoring. The design is documented in Module 02.
 
-![Kali VM — Adapter 2 attached to the Host-only network](screenshots/02-kali-adapter2-hostonly.png)
+---
 
-### Configuration history (Kali)
+## Completed labs
 
-| Date | Adapter 1 | Adapter 2 | Lab IP | Note |
-|---|---|---|---|---|
-| 2026-11-16 | Host-only (`08:00:27:8a:35:d2`) | — | `192.168.56.104` | Temporary layout used in LAB 01. No internet access. |
-| 2026-11-17 | NAT (`08:00:27:8a:35:d2`) | Host-only (`08:00:27:c3:37:eb`) | `192.168.56.102` | Final layout. Internet and lab both verified. |
+| Lab | What it demonstrates | Evidence |
+|---|---|---|
+| [**LAB 01 — Understanding Network Communication**](module01-networking-fundamentals/lab01-network-communication/) | ARP resolution before ICMP; broadcast vs unicast; ARP cache as volatile evidence; cross-source MAC correlation; TTL as an OS indicator; layer-2 troubleshooting with `ip neigh` | `lab01-arp-icmp.pcapng` (SHA-256 verified) |
+| [**LAB 02 — DNS Resolution and TCP Connections**](module01-networking-fundamentals/lab02-dns-and-tcp/) | Gateway ARP vs remote destinations; DNS over UDP; TCP handshake, HTTP, FIN vs RST; capture/tool cross-correlation; why a source address is not proof of origin | `lab02-dns.pcapng`, `lab02-tcp.pcapng` (SHA-256 verified) |
 
-**Why this matters for investigations:** the same Kali VM appeared as `.104` on one day and `.102` on the next, because the DHCP server leased it a different address. **An IP address alone does not identify a machine.** Attributing an IP to a device requires the DHCP lease record (IP ↔ MAC ↔ time) for the moment in question.
+---
 
-### Connectivity verification
+## Lab environment
 
-```console
-$ ping -c 2 8.8.8.8
-64 bytes from 8.8.8.8: icmp_seq=1 ttl=64 time=23.1 ms
-64 bytes from 8.8.8.8: icmp_seq=2 ttl=64 time=23.8 ms
+| Component | Detail |
+|---|---|
+| Analyst VM | Kali Linux 2026.1 |
+| Target VM | Windows 10 Enterprise LTSC |
+| Hypervisor | VirtualBox |
+| Lab network | Host-only, `192.168.56.0/24`, for all lab traffic. A separate NAT adapter per VM is used only for updates and tool installation. |
+| Scope rule | All scanning and testing is limited to VMs I own. No third-party networks are scanned. |
 
-$ ping -c 2 192.168.56.101
-64 bytes from 192.168.56.101: icmp_seq=1 ttl=128 time=1.27 ms
-64 bytes from 192.168.56.101: icmp_seq=2 ttl=128 time=0.609 ms
+---
+
+## Repository structure
+
+```
+network-defense-traffic-investigation-lab/
+├── README.md                              ← you are here
+├── LICENSE
+├── module00-lab-environment/              ← VMs, network modes, isolation
+├── module01-networking-fundamentals/
+│   ├── README.md                          ← module overview and lab index
+│   ├── lab01-network-communication/
+│   │   ├── README.md                      ← lab write-up
+│   │   ├── screenshots/
+│   │   └── evidence/                      ← PCAP + SHA256SUMS
+│   └── lab02-dns-and-tcp/
+├── module02-network-architecture/
+├── module03-traffic-analysis/
+├── module04-network-reconnaissance/
+├── module05-network-defense/
+└── module06-dfir-investigation/
 ```
 
-**TTL caveat observed:** the reply from `8.8.8.8` (an internet host many hops away) arrived with `ttl=64`, not a decremented value. The VirtualBox NAT engine answers on behalf of the remote host, so this TTL reflects the NAT engine, not Google's server. This is direct evidence that TTL is *consistent with* an OS at best, and that middleboxes can rewrite it.
-
-> The first lab ping after reconfiguration returned `Destination Host Unreachable` from `192.168.56.102`, which means the ARP request got no reply. Cause: the Windows VM was powered off. Same root cause and diagnosis as the LAB 01 troubleshooting log.
+Each lab is self-contained: a write-up, screenshots, and the hashed evidence it analyses.
 
 ---
 
-## VirtualBox network modes
+## Standards referenced
 
-| Mode | What it is | Observed behaviour |
-|---|---|---|
-| **NAT** | A private "router" for each VM, used to reach the internet through the host | Each VM gets its **own isolated** NAT. Kali and Windows both received `10.0.2.15` with no conflict, and they could **not** reach each other. |
-| **Host-only** | A private network **shared** by the VMs and the host, with no internet | Both VMs joined `192.168.56.0/24` and reached each other. |
-| **NAT Network** | A NAT shared by several VMs (closer to a real office network) | Not used yet. Candidate for later modules. |
-
-**Why Host-only for the lab:** it lets the VMs talk to each other while keeping all test traffic (scans, captures, simulated attacks) off the internet and off the physical home network.
-
-**Recommended layout per VM:** Adapter 1 = NAT (updates and tool installation), Adapter 2 = Host-only (lab traffic). The adapter order is a convention; what matters is the combination.
-
----
-
-## Isolation and scope
-
-- All testing targets only the VMs in this lab.
-- The Host-only network has no route to the internet.
-- Outputs that reveal the physical network (for example, the host's ISP DNS servers that appear in the Windows NAT adapter) are **not** published.
+| Standard | Role in this project |
+|---|---|
+| RFC 3227 | Evidence collection and order of volatility (ARP cache, live connections, captures) |
+| ISO/IEC 27037 | Identification, collection and preservation of digital evidence (save and hash captures immediately) |
+| ISO/IEC 27042 | Analysis and interpretation of digital evidence |
+| NIST SP 800-86 | Integrating forensic techniques into incident response, with network traffic as a data source |
+| NIST SP 800-61 | Incident handling: detection, analysis, reporting (Modules 05–06) |
+| Protocol RFCs | RFC 826 (ARP), RFC 792 (ICMP), and others per lab, as the technical basis of each analysis |
 
 ---
 
-## Setup checklist
-
-- [x] Windows: Adapter 1 = NAT, Adapter 2 = Host-only (static `192.168.56.101`)
-- [x] Kali: Adapter 1 = NAT, Adapter 2 = Host-only (2026-11-17)
-- [x] Kali: VirtualBox Guest Additions installed (`virtualbox-guest-x11`); shared clipboard and drag-and-drop set to bidirectional
-- [x] Connectivity verified: Kali → internet (NAT) and Kali → Windows (Host-only)
+*Network Defense & Traffic Investigation Lab. Built and documented by Paulo Vaz. All activity takes place in an isolated, self-owned virtual lab. No third-party systems are tested and no personal data is published.*
