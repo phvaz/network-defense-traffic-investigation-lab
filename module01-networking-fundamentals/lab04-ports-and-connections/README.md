@@ -49,10 +49,14 @@ No packet capture was taken in this lab: the evidence is the hosts' own socket t
 ## 3. Part A — Kali: what is listening?
 
 ```console
-$ ss -tuln
+┌──(kali㉿kali)-[~]
+└─$ ss -tuln
+Netid   State   Recv-Q   Send-Q   Local Address:Port   Peer Address:Port
 ```
 
-> 🔴 **CAPTURE:** paste the exact `ss -tuln` output (header line only, expected) and add the screenshot `screenshots/01-kali-ss-no-listeners.png`.
+*(Column spacing condensed; the output is the header line only.)*
+
+> 🔴 **CAPTURE:** `screenshots/01-kali-ss-no-listeners.png`
 
 **Observed:** no listening sockets, TCP or UDP. The prediction before running it was the same: nothing listening.
 
