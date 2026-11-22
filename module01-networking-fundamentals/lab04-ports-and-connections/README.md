@@ -119,16 +119,47 @@ Get-NetTCPConnection | Export-Csv "$HOME\Desktop\lab04-win-nettcp-baseline.csv" 
 
 ### Observed
 
-> 🔴 **CAPTURE:** paste the real `netstat -ano` LISTENING lines and the `Get-NetTCPConnection` table. Illustrative shape only, do not keep:
->
-> ```text
->   Proto  Local Address          Foreign Address        State           PID
->   TCP    0.0.0.0:135            0.0.0.0:0              LISTENING       NNN
-> ```
+Run in `cmd` on the Windows VM (`netstat -ano | findstr LISTENING`):
 
-| Port | Bound to | PID | Process | Service (if known) |
+```console
+C:\Users\NEXCHAIN-WS01>netstat -ano | findstr LISTENING
+  TCP    0.0.0.0:135            0.0.0.0:0              LISTENING       968
+  TCP    0.0.0.0:445            0.0.0.0:0              LISTENING       4
+  TCP    0.0.0.0:5040           0.0.0.0:0              LISTENING       660
+  TCP    0.0.0.0:7680           0.0.0.0:0              LISTENING       6592
+  TCP    0.0.0.0:49664          0.0.0.0:0              LISTENING       728
+  TCP    0.0.0.0:49665          0.0.0.0:0              LISTENING       576
+  TCP    0.0.0.0:49666          0.0.0.0:0              LISTENING       1252
+  TCP    0.0.0.0:49667          0.0.0.0:0              LISTENING       1224
+  TCP    0.0.0.0:49668          0.0.0.0:0              LISTENING       2520
+  TCP    0.0.0.0:49670          0.0.0.0:0              LISTENING       720
+  TCP    10.0.2.15:139          0.0.0.0:0              LISTENING       4
+  TCP    192.168.56.101:139     0.0.0.0:0              LISTENING       4
+  TCP    [::]:135               [::]:0                 LISTENING       968
+  TCP    [::]:445               [::]:0                 LISTENING       4
+  TCP    [::]:7680              [::]:0                 LISTENING       6592
+  TCP    [::]:49664             [::]:0                 LISTENING       728
+  TCP    [::]:49665             [::]:0                 LISTENING       576
+  TCP    [::]:49666             [::]:0                 LISTENING       1252
+  TCP    [::]:49667             [::]:0                 LISTENING       1224
+  TCP    [::]:49668             [::]:0                 LISTENING       2520
+  TCP    [::]:49670             [::]:0                 LISTENING       720
+```
+
+> 🔴 **CAPTURE:** screenshot of this output → `screenshots/01-windows-netstat-listening.png`. Timestamp of the run (`echo %date% %time%`) not recorded; note it if repeated.
+
+**12 TCP listeners** (10 distinct ports), against **zero** on Kali. Only TCP appears because `findstr LISTENING` filters on the state column, and UDP sockets have no state.
+
+| Port | Bound to | PID | Process | Likely service |
 |---|---|---|---|---|
-| 🔴 | 🔴 | 🔴 | 🔴 | 🔴 |
+| 135 | `0.0.0.0`, `[::]` | 968 | 🔴 CONFIRM (`tasklist /svc /FI "PID eq 968"`) | RPC Endpoint Mapper |
+| 139 | `10.0.2.15`, `192.168.56.101` (one per interface) | 4 | System | NetBIOS Session Service |
+| 445 | `0.0.0.0`, `[::]` | 4 | System | SMB |
+| 5040 | `0.0.0.0` (IPv4 only) | 660 | 🔴 CONFIRM | 🔴 CONFIRM |
+| 7680 | `0.0.0.0`, `[::]` | 6592 | 🔴 CONFIRM | 🔴 CONFIRM |
+| 49664–49668, 49670 | `0.0.0.0`, `[::]` | 728, 576, 1252, 1224, 2520, 720 | 🔴 CONFIRM | RPC dynamic ports |
+
+PID 4 is always the Windows kernel (`System`) process, so 139 and 445 are served by the kernel's own SMB/NetBIOS drivers, not by a user program.
 
 ### Interpretation
 
