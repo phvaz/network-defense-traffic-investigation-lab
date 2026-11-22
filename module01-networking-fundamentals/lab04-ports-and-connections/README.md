@@ -167,6 +167,8 @@ C:\Users\NEXCHAIN-WS01>netstat -ano | findstr ESTABLISHED
 | `10.0.2.15:49738` | `172.172.255.217:443` | 2836 | `svchost.exe` | `WpnService` |
 | `10.0.2.15:49774` | `52.123.244.145:443` | 2816 | `MpDefenderCoreService.exe` | `MDCoreSvc` (Microsoft Defender) |
 
+No browser or other user application was open on the VM when this was run.
+
 ### Interpretation
 
 - **All three connections are outbound.** The VM's side uses ephemeral ports (49685, 49738, 49774) and the remote side is 443 (HTTPS). The VM called out; nothing called in.
