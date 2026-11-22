@@ -152,14 +152,33 @@ C:\Users\NEXCHAIN-WS01>netstat -ano | findstr LISTENING
 
 | Port | Bound to | PID | Process | Likely service |
 |---|---|---|---|---|
-| 135 | `0.0.0.0`, `[::]` | 968 | 🔴 CONFIRM (`tasklist /svc /FI "PID eq 968"`) | RPC Endpoint Mapper |
-| 139 | `10.0.2.15`, `192.168.56.101` (one per interface) | 4 | System | NetBIOS Session Service |
-| 445 | `0.0.0.0`, `[::]` | 4 | System | SMB |
+| 135 | `0.0.0.0`, `[::]` | 968 | `svchost.exe` | `RpcEptMapper`, `RpcSs` (RPC Endpoint Mapper) ✅ |
+| 139 | `10.0.2.15`, `192.168.56.101` (one per interface) | 4 | `System` ✅ | NetBIOS Session Service |
+| 445 | `0.0.0.0`, `[::]` | 4 | `System` ✅ | SMB |
 | 5040 | `0.0.0.0` (IPv4 only) | 660 | 🔴 CONFIRM | 🔴 CONFIRM |
-| 7680 | `0.0.0.0`, `[::]` | 6592 | 🔴 CONFIRM | 🔴 CONFIRM |
+| 7680 | `0.0.0.0`, `[::]` | 6592 | `svchost.exe` | `DoSvc` (Delivery Optimization) ✅ |
 | 49664–49668, 49670 | `0.0.0.0`, `[::]` | 728, 576, 1252, 1224, 2520, 720 | 🔴 CONFIRM | RPC dynamic ports |
 
-PID 4 is always the Windows kernel (`System`) process, so 139 and 445 are served by the kernel's own SMB/NetBIOS drivers, not by a user program.
+PID → process mapping (✅ rows above), with `tasklist /svc`:
+
+```console
+C:\Users\NEXCHAIN-WS01>tasklist /svc /fi "PID eq 968"
+Nome da imagem            Identifi Serviços
+========================= ======== ============================================
+svchost.exe                    968 RpcEptMapper, RpcSs
+
+C:\Users\NEXCHAIN-WS01>tasklist /svc /fi "PID eq 4"
+Nome da imagem            Identifi Serviços
+========================= ======== ============================================
+System                           4 N/A
+
+C:\Users\NEXCHAIN-WS01>tasklist /svc /fi "PID eq 6592"
+Nome da imagem            Identifi Serviços
+========================= ======== ============================================
+svchost.exe                   6592 DoSvc
+```
+
+PID 4 is always the Windows kernel (`System`) process, so 139 and 445 are served by the kernel's own SMB/NetBIOS drivers, not by a user program (`tasklist` lists no service for it). Port 7680 belongs to Delivery Optimization, the Windows Update peer-to-peer sharing service: a listener that exists for updates, not for anything the lab needs, and a good example of attack surface nobody asked for.
 
 ### Interpretation
 
