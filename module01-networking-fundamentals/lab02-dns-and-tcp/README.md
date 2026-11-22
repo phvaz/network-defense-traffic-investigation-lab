@@ -201,7 +201,7 @@ cd evidence/
 sha256sum -c SHA256SUMS
 ```
 
-**Screenshots:** the resolver address is masked with black boxes in the list pane, packet details, and hex bytes (`b5 d5 84 02`). Faint copies visible through the transparent terminal window were masked too.
+**Screenshots:** the resolver address is masked with black boxes in the list pane, packet details, and hex bytes (all four address bytes). Faint copies visible through the transparent terminal window were masked too.
 
 > **Why this matters:** publishing a derivative is a normal forensic practice. The original stays untouched and keeps its original hash. The derivative gets its own hash, and the transformation is documented and reproducible, so any reviewer can see exactly what changed and why (ISO/IEC 27037, preservation; ISO/IEC 27042, documented analysis).
 
