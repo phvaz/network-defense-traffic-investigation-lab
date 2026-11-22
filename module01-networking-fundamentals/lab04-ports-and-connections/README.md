@@ -56,7 +56,7 @@ Netid   State   Recv-Q   Send-Q   Local Address:Port   Peer Address:Port
 
 *(Column spacing condensed; the output is the header line only.)*
 
-> 🔴 **CAPTURE:** `screenshots/01-kali-ss-no-listeners.png`
+![ss -tuln on Kali: header line only, no listeners](screenshots/01-kali-ss-no-listeners.png)
 
 **Observed:** no listening sockets, TCP or UDP. The prediction before running it was the same: nothing listening.
 
@@ -207,16 +207,16 @@ No problems came up during this lab. The one practical lesson was about method: 
 
 | Evidence | Form |
 |---|---|
-| Kali `ss -tuln` | 🔴 Screenshot 01 |
+| Kali `ss -tuln` | Screenshot 01, transcribed in Part A |
 | Windows `netstat -ano \| findstr LISTENING` | Screenshot 02, transcribed in Part B |
 | Windows `tasklist /svc` (PID mapping) | Screenshot 03 (combined lookup) and transcription in Part B |
 | Windows `netstat -ano \| findstr ESTABLISHED` | Screenshot 04, transcribed in Part C |
 
-**Timing (Windows VM clock, 2026-11-22, local time):** LISTENING at 15:18, ESTABLISHED at 15:27, PID mapping at 15:46. The VM's time zone was not recorded; the host runs BRT (UTC−3). Note that the connection table changes from second to second: the ESTABLISHED list was taken 9 minutes after the LISTENING list, and each describes only its own moment.
+**Timing (Windows VM clock, 2026-11-22, local time):** LISTENING at 15:18, ESTABLISHED at 15:27, PID mapping at 15:46. Kali `ss -tuln` was screenshotted at 19:05 UTC (Kali clock); the run in Part A repeats the earlier check that found the same result. The VM's time zone was not recorded; the host runs BRT (UTC−3). Note that the connection table changes from second to second: the ESTABLISHED list was taken 9 minutes after the LISTENING list, and each describes only its own moment.
 
 The command outputs were not saved to files at the time, so there are no hashes for them. In a real case, the outputs would be redirected to a file (`netstat -ano > netstat.txt`), timestamped and hashed immediately, like the packet captures in LABs 01 to 03.
 
-**Redactions:** the Windows taskbar was cropped from all screenshots.
+**Redactions:** the Windows taskbar was cropped from all Windows screenshots; the Kali screenshot was cropped to the terminal (top panel and desktop removed).
 
 **Published as-is:** the VirtualBox NAT address `10.0.2.15` (identical in every VirtualBox VM, so it identifies nothing) and the two remote cloud addresses (public service endpoints, not the examiner's network). Nothing from the examiner's home network or ISP appears in this lab.
 
