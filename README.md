@@ -2,7 +2,7 @@
 
 **A hands-on lab building network knowledge for security investigation: from how two hosts talk on a LAN, to traffic analysis, reconnaissance, detection, and a simulated DFIR network investigation.**
 
-`VirtualBox · Kali Linux · Windows 10` · `Wireshark · Nmap · Suricata` · `RFC 3227 · ISO/IEC 27037 · NIST SP 800-86 / 800-61` · `Status: In progress — Module 01`
+`VirtualBox · Kali Linux · Windows 10` · `Wireshark · Nmap · Suricata` · `RFC 3227 · ISO/IEC 27037 · NIST SP 800-86 / 800-61` · `Status: In progress — Module 02 next`
 
 ---
 
@@ -25,7 +25,7 @@ Every lab follows the same discipline used in my forensic investigations:
 | Module | Focus | Main tools | Status |
 |---|---|---|---|
 | [**00 — Lab Environment**](module00-lab-environment/) | VMs, VirtualBox network modes, isolation | VirtualBox | ✅ Complete |
-| [**01 — Networking Fundamentals**](module01-networking-fundamentals/) | IPv4, subnetting, MAC, ARP, ICMP, DHCP, DNS, TCP/UDP | `ip`, `ipconfig`, Wireshark | 🟡 In progress (LABs 01–03 complete) |
+| [**01 — Networking Fundamentals**](module01-networking-fundamentals/) | IPv4, subnetting, MAC, ARP, ICMP, DHCP, DNS, TCP/UDP | `ip`, `ipconfig`, Wireshark | ✅ Complete |
 | [**02 — Network Architecture**](module02-network-architecture/) | VLANs, trunking, inter-VLAN routing, NAT, ACLs | Cisco Packet Tracer | ⬜ Planned |
 | [**03 — Traffic Analysis**](module03-traffic-analysis/) | PCAP analysis, TCP/TLS handshakes, DNS, HTTP, C2/exfiltration patterns | Wireshark | ⬜ Planned |
 | [**04 — Network Reconnaissance**](module04-network-reconnaissance/) | Host discovery, port/service/OS detection, exposure mapping | Nmap | ⬜ Planned |
@@ -56,6 +56,7 @@ With switching, routing, a firewall, IPv4 addressing, DHCP, DNS, NAT, ACLs, and 
 | [**LAB 01 — Understanding Network Communication**](module01-networking-fundamentals/lab01-network-communication/) | ARP resolution before ICMP; broadcast vs unicast; ARP cache as volatile evidence; cross-source MAC correlation; TTL as an OS indicator; layer-2 troubleshooting with `ip neigh` | `lab01-arp-icmp.pcapng` (SHA-256 verified) |
 | [**LAB 02 — DNS Resolution and TCP Connections**](module01-networking-fundamentals/lab02-dns-and-tcp/) | Gateway ARP vs remote destinations; DNS over UDP; TCP handshake, HTTP, FIN vs RST; capture/tool cross-correlation; why a source address is not proof of origin | `lab02-dns.pcapng`, `lab02-tcp.pcapng` (SHA-256 verified) |
 | [**LAB 03 — Routing and the Path to the Internet**](module01-networking-fundamentals/lab03-routing-and-traceroute/) | Routing table and default route; traceroute via TTL expiry; how a NAT middlebox hid the real path; double NAT and CGNAT implications for attribution; detecting an incomplete capture | Captures retained privately (home network); SHA-256 recorded |
+| [**LAB 04 — Ports and Active Connections**](module01-networking-fundamentals/lab04-ports-and-connections/) | Listening ports on Kali vs Windows; PID → program → service attribution; outbound connections and ephemeral ports; default services as attack surface | Socket-table screenshots |
 
 ---
 
@@ -85,7 +86,8 @@ network-defense-traffic-investigation-lab/
 │   │   ├── screenshots/
 │   │   └── evidence/                      ← PCAP + SHA256SUMS
 │   ├── lab02-dns-and-tcp/
-│   └── lab03-routing-and-traceroute/
+│   ├── lab03-routing-and-traceroute/
+│   └── lab04-ports-and-connections/
 ├── module02-network-architecture/
 ├── module03-traffic-analysis/
 ├── module04-network-reconnaissance/

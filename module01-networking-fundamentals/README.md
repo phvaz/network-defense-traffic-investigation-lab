@@ -1,6 +1,6 @@
 # Module 01 — Networking Fundamentals
 
-`Status: In progress`
+`Status: Complete`
 
 ## Objective
 
@@ -19,11 +19,11 @@ OSI and TCP/IP models · IPv4 · private vs public addresses · subnetting, CIDR
 | [**LAB 01 — Understanding Network Communication**](lab01-network-communication/) | IP, MAC, mask, ARP, ICMP, and the first packet capture | ✅ Complete |
 | [**LAB 02 — DNS Resolution and TCP Connections**](lab02-dns-and-tcp/) | Gateway, DNS over UDP, TCP handshake, HTTP, FIN vs RST | ✅ Complete |
 | [**LAB 03 — Routing and the Path to the Internet**](lab03-routing-and-traceroute/) | Routing table, traceroute/TTL, ICMP Time Exceeded, double NAT, CGNAT | ✅ Complete |
-| LAB 04 | Ports and active connections (`ss`, `netstat`) | ⬜ Planned |
+| [**LAB 04 — Ports and Active Connections**](lab04-ports-and-connections/) | Listening ports, active connections, PID → program → service attribution (`ss`, `netstat`, `tasklist`) | ✅ Complete |
 
 ---
 
-## Key takeaways so far
+## Key takeaways
 
 - **A host decides "local or remote" using its subnet mask.** Local destinations are delivered directly; remote ones go to the gateway.
 - **ARP comes before ICMP.** A host must resolve the destination MAC before any IP packet leaves on the LAN.
@@ -34,3 +34,5 @@ OSI and TCP/IP models · IPv4 · private vs public addresses · subnetting, CIDR
 - **Middleboxes can answer on someone else's behalf.** The VirtualBox NAT hid the real path from traceroute and rewrote the TTL; the real path (9 hops) was only visible from the host.
 - **Absence in a capture is not absence of the event.** An incomplete capture was caught by cross-checking against the `tracert` output.
 - **A packet's source address is a claim, not proof.** A TCP `RST` "from" a remote server was *consistent with* local generation by the NAT, based on timing.
+- **Every open port has an owner.** `netstat -ano` gives a PID; `tasklist /svc` turns it into a program and a service. A default Windows VM listened on 10 ports (all built-in components); a default Kali on none.
+- **The client is the side with the ephemeral port.** All active connections on the Windows VM were outbound HTTPS from built-in services, leaving through the NAT adapter.
