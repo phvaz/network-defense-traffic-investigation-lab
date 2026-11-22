@@ -54,7 +54,7 @@ With switching, routing, a firewall, IPv4 addressing, DHCP, DNS, NAT, ACLs, and 
 | Lab | What it demonstrates | Evidence |
 |---|---|---|
 | [**LAB 01 — Understanding Network Communication**](module01-networking-fundamentals/lab01-network-communication/) | ARP resolution before ICMP; broadcast vs unicast; ARP cache as volatile evidence; cross-source MAC correlation; TTL as an OS indicator; layer-2 troubleshooting with `ip neigh` | `lab01-arp-icmp.pcapng` (SHA-256 verified) |
-| [**LAB 02 — DNS Resolution and TCP Connections**](module01-networking-fundamentals/lab02-dns-and-tcp/) | Gateway ARP vs remote destinations; DNS over UDP; TCP handshake, HTTP, FIN vs RST; capture/tool cross-correlation; why a source address is not proof of origin | `lab02-dns.pcapng`, `lab02-tcp.pcapng` (SHA-256 verified) |
+| [**LAB 02 — DNS Resolution and TCP Connections**](module01-networking-fundamentals/lab02-dns-and-tcp/) | Gateway ARP vs remote destinations; DNS over UDP; TCP handshake, HTTP, FIN vs RST; capture/tool cross-correlation; why a source address is not proof of origin | `lab02-dns-sanitized.pcapng`, `lab02-tcp-sanitized.pcapng` (resolver address redacted, SHA-256 verified) |
 | [**LAB 03 — Routing and the Path to the Internet**](module01-networking-fundamentals/lab03-routing-and-traceroute/) | Routing table and default route; traceroute via TTL expiry; how a NAT middlebox hid the real path; double NAT and CGNAT implications for attribution; detecting an incomplete capture | Captures retained privately (home network); SHA-256 recorded |
 
 ---
