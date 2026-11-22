@@ -19,7 +19,7 @@ OSI and TCP/IP models · IPv4 · private vs public addresses · subnetting, CIDR
 | [**LAB 01 — Understanding Network Communication**](lab01-network-communication/) | IP, MAC, mask, ARP, ICMP, and the first packet capture | ✅ Complete |
 | [**LAB 02 — DNS Resolution and TCP Connections**](lab02-dns-and-tcp/) | Gateway, DNS over UDP, TCP handshake, HTTP, FIN vs RST | ✅ Complete |
 | [**LAB 03 — Routing and the Path to the Internet**](lab03-routing-and-traceroute/) | Routing table, traceroute/TTL, ICMP Time Exceeded, double NAT, CGNAT | ✅ Complete |
-| LAB 04 | Ports and active connections (`ss`, `netstat`) | ⬜ Planned |
+| [**LAB 04 — Ports and Active Connections**](lab04-ports-and-connections/) | Listeners, connection states, process attribution, bind address, `ss` / `netstat` / capture correlation | 🟡 Draft (awaiting lab captures) |
 
 ---
 
