@@ -180,6 +180,25 @@ svchost.exe                   6592 DoSvc
 
 PID 4 is always the Windows kernel (`System`) process, so 139 and 445 are served by the kernel's own SMB/NetBIOS drivers, not by a user program (`tasklist` lists no service for it). Port 7680 belongs to Delivery Optimization, the Windows Update peer-to-peer sharing service: a listener that exists for updates, not for anything the lab needs, and a good example of attack surface nobody asked for.
 
+### Observed — active connections (baseline)
+
+```console
+C:\Users\NEXCHAIN-WS01>netstat -ano | findstr ESTABLISHED
+  TCP    10.0.2.15:49685        172.172.255.217:443    ESTABLISHED     2836
+  TCP    10.0.2.15:49738        172.172.255.217:443    ESTABLISHED     2836
+  TCP    10.0.2.15:49774        52.123.244.145:443     ESTABLISHED     2816
+```
+
+| Local (VM) | Remote | PID | Process | Note |
+|---|---|---|---|---|
+| `10.0.2.15:49685` | `172.172.255.217:443` | 2836 | 🔴 CONFIRM (`tasklist /svc /fi "PID eq 2836"`) | HTTPS, out through the NAT adapter |
+| `10.0.2.15:49738` | `172.172.255.217:443` | 2836 | 🔴 CONFIRM | Same process, same server, second connection |
+| `10.0.2.15:49774` | `52.123.244.145:443` | 2816 | 🔴 CONFIRM | HTTPS, out through the NAT adapter |
+
+- **All three leave via the NAT adapter (`10.0.2.15`), none via the lab network.** Consistent with the routing logic from LAB 03: internet destinations follow the default route.
+- **The VM is the client in all three.** Local ports are ephemeral (49152–65535), remote port is 443 (HTTPS). Nothing outside connected *in*.
+- **No user activity was running**, so these are background connections opened by Windows itself. Who owns the remote addresses is 🔴 CONFIRM (RDAP/WHOIS lookup); until then, "consistent with Microsoft cloud services" at most, based on the owning process.
+
 ### Interpretation
 
 - **Windows listens on far more ports than Kali by default.** Typical entries are RPC (135), NetBIOS (139, on a specific interface), SMB (445), and a range of high RPC dynamic ports owned by `lsass`, `services`, `svchost` and similar.
