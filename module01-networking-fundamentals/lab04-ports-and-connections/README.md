@@ -89,7 +89,7 @@ C:\Users\NEXCHAIN-WS01>netstat -ano | findstr LISTENING
   TCP    [::]:49670             [::]:0                 LISTENING       720
 ```
 
-> 🔴 **CAPTURE:** `screenshots/02-windows-netstat-listening.png`
+![netstat -ano | findstr LISTENING on the Windows VM](screenshots/02-windows-netstat-listening.png)
 
 **Observed:** 21 listening sockets on 10 distinct TCP ports, against zero on Kali. Only TCP appears, because `findstr LISTENING` filters on the state column and UDP sockets have no state.
 
@@ -121,7 +121,9 @@ svchost.exe                    660 CDPSvc
 
 *(Header lines of the `tasklist` output omitted.)*
 
-> 🔴 **CAPTURE:** `screenshots/03-windows-tasklist-pid-mapping.png`
+![tasklist /svc mapping nine PIDs to programs and services](screenshots/03-windows-tasklist-pid-mapping.png)
+
+The screenshot covers the combined `findstr` mapping (run twice, identical output). The first three single-PID lookups (968, 4, 6592) were transcribed from the terminal but not screenshotted.
 
 | Port | Bound to | PID | Program | Service(s) | What it is |
 |---|---|---|---|---|---|
@@ -159,7 +161,7 @@ C:\Users\NEXCHAIN-WS01>netstat -ano | findstr ESTABLISHED
   TCP    10.0.2.15:49774        52.123.244.145:443     ESTABLISHED     2816
 ```
 
-> 🔴 **CAPTURE:** `screenshots/04-windows-netstat-established.png`
+![netstat -ano | findstr ESTABLISHED on the Windows VM](screenshots/04-windows-netstat-established.png)
 
 | Local (VM) | Remote | PID | Program | Service |
 |---|---|---|---|---|
@@ -201,12 +203,16 @@ No problems came up during this lab. The one practical lesson was about method: 
 
 | Evidence | Form |
 |---|---|
-| Kali `ss -tuln` | Screenshot 01 |
+| Kali `ss -tuln` | 🔴 Screenshot 01 |
 | Windows `netstat -ano \| findstr LISTENING` | Screenshot 02, transcribed in Part B |
-| Windows `tasklist /svc` (PID mapping) | Screenshot 03, transcribed in Part B |
+| Windows `tasklist /svc` (PID mapping) | Screenshot 03 (combined lookup) and transcription in Part B |
 | Windows `netstat -ano \| findstr ESTABLISHED` | Screenshot 04, transcribed in Part C |
 
+**Timing (Windows VM clock, 2026-11-22, local time):** LISTENING at 15:18, ESTABLISHED at 15:27, PID mapping at 15:46. The VM's time zone was not recorded; the host runs BRT (UTC−3). Note that the connection table changes from second to second: the ESTABLISHED list was taken 9 minutes after the LISTENING list, and each describes only its own moment.
+
 The command outputs were not saved to files at the time, so there are no hashes for them. In a real case, the outputs would be redirected to a file (`netstat -ano > netstat.txt`), timestamped and hashed immediately, like the packet captures in LABs 01 to 03.
+
+**Redactions:** the Windows taskbar was cropped from all screenshots.
 
 **Published as-is:** the VirtualBox NAT address `10.0.2.15` (identical in every VirtualBox VM, so it identifies nothing) and the two remote cloud addresses (public service endpoints, not the examiner's network). Nothing from the examiner's home network or ISP appears in this lab.
 
