@@ -2,7 +2,7 @@
 
 **A hands-on lab building network knowledge for security investigation: from how two hosts talk on a LAN, to traffic analysis, reconnaissance, detection, and a simulated DFIR network investigation.**
 
-`VirtualBox · Kali Linux · Windows 10` · `Wireshark · Nmap · Suricata` · `RFC 3227 · ISO/IEC 27037 · NIST SP 800-86 / 800-61` · `Status: In progress — Module 02 next`
+`VirtualBox · Kali Linux · Windows 10` · `Wireshark · Nmap · Suricata` · `RFC 3227 · ISO/IEC 27037 · NIST SP 800-86 / 800-61` · `Status: In progress — Module 02`
 
 ---
 
@@ -26,7 +26,7 @@ Every lab follows the same discipline used in my forensic investigations:
 |---|---|---|---|
 | [**00 — Lab Environment**](module00-lab-environment/) | VMs, VirtualBox network modes, isolation | VirtualBox | ✅ Complete |
 | [**01 — Networking Fundamentals**](module01-networking-fundamentals/) | IPv4, subnetting, MAC, ARP, ICMP, DHCP, DNS, TCP/UDP | `ip`, `ipconfig`, Wireshark | ✅ Complete |
-| [**02 — Network Architecture**](module02-network-architecture/) | VLANs, trunking, inter-VLAN routing, NAT, ACLs | Cisco Packet Tracer | ⬜ Planned |
+| [**02 — Network Architecture**](module02-network-architecture/) | VLANs, trunking, inter-VLAN routing, NAT, ACLs | Cisco Packet Tracer | 🟡 In progress |
 | [**03 — Traffic Analysis**](module03-traffic-analysis/) | PCAP analysis, TCP/TLS handshakes, DNS, HTTP, C2/exfiltration patterns | Wireshark | ⬜ Planned |
 | [**04 — Network Reconnaissance**](module04-network-reconnaissance/) | Host discovery, port/service/OS detection, exposure mapping | Nmap | ⬜ Planned |
 | [**05 — Network Defense**](module05-network-defense/) | Firewalling, IDS rules, alert triage, alert ↔ PCAP correlation | nftables/UFW, Suricata | ⬜ Planned |
@@ -57,6 +57,7 @@ With switching, routing, a firewall, IPv4 addressing, DHCP, DNS, NAT, ACLs, and 
 | [**LAB 02 — DNS Resolution and TCP Connections**](module01-networking-fundamentals/lab02-dns-and-tcp/) | Gateway ARP vs remote destinations; DNS over UDP; TCP handshake, HTTP, FIN vs RST; capture/tool cross-correlation; why a source address is not proof of origin | `lab02-dns-sanitized.pcapng`, `lab02-tcp-sanitized.pcapng` (resolver address redacted, SHA-256 verified) |
 | [**LAB 03 — Routing and the Path to the Internet**](module01-networking-fundamentals/lab03-routing-and-traceroute/) | Routing table and default route; traceroute via TTL expiry; how a NAT middlebox hid the real path; double NAT and CGNAT implications for attribution; detecting an incomplete capture | Captures retained privately (home network); SHA-256 recorded |
 | [**LAB 04 — Ports and Active Connections**](module01-networking-fundamentals/lab04-ports-and-connections/) | Listening ports on Kali vs Windows; PID → program → service attribution; outbound connections and ephemeral ports; default services as attack surface | Socket-table screenshots |
+| [**LAB 05 — VLANs: Segmenting One Switch**](module02-network-architecture/lab05-vlans/) | Switch vs router; one switch split into two VLANs; before/after ping test isolating a single variable; MAC address table as volatile evidence of port and segment | `lab05-vlans.pkt` (Packet Tracer project, SHA-256 verified) |
 
 ---
 
