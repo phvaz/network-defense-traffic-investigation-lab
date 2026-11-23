@@ -58,6 +58,7 @@ With switching, routing, a firewall, IPv4 addressing, DHCP, DNS, NAT, ACLs, and 
 | [**LAB 03 — Routing and the Path to the Internet**](module01-networking-fundamentals/lab03-routing-and-traceroute/) | Routing table and default route; traceroute via TTL expiry; how a NAT middlebox hid the real path; double NAT and CGNAT implications for attribution; detecting an incomplete capture | Captures retained privately (home network); SHA-256 recorded |
 | [**LAB 04 — Ports and Active Connections**](module01-networking-fundamentals/lab04-ports-and-connections/) | Listening ports on Kali vs Windows; PID → program → service attribution; outbound connections and ephemeral ports; default services as attack surface | Socket-table screenshots |
 | [**LAB 05 — VLANs: Segmenting One Switch**](module02-network-architecture/lab05-vlans/) | Switch vs router; one switch split into two VLANs; before/after ping test isolating a single variable; MAC address table as volatile evidence of port and segment | `lab05-vlans.pkt` (Packet Tracer project, SHA-256 verified) |
+| [**LAB 06 — Inter-VLAN Routing (Router-on-a-Stick)**](module02-network-architecture/lab06-inter-vlan-routing/) | 802.1Q trunk and router subinterfaces; one subnet and gateway per VLAN; routed path confirmed by ping, tracert and TTL decrement (128 → 127) | `lab06-intervlan.pkt` (Packet Tracer project, SHA-256 verified) |
 
 ---
 
