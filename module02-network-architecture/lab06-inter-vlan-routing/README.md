@@ -23,11 +23,13 @@ This lab runs entirely inside the Packet Tracer simulator on the host PC. It sta
 
 | Device | Interface | VLAN | IP / mask | Gateway |
 |---|---|---|---|---|
-| PC0 | Fa0 → Switch0 Fa0/1 | 10 — ADMIN | `192.168.10.10/24` | `192.168.10.1` |
-| PC1 | Fa0 → Switch0 Fa0/2 | 10 — ADMIN | `192.168.10.11/24` | `192.168.10.1` |
+| PC0 | Fa0 → Switch0 Fa0/2 | 10 — ADMIN | `192.168.10.10/24` | `192.168.10.1` |
+| PC1 | Fa0 → Switch0 Fa0/1 | 10 — ADMIN | `192.168.10.11/24` | `192.168.10.1` |
 | PC2 | Fa0 → Switch0 Fa0/3 | 20 — FUNCIONARIOS | `192.168.20.10/24` | `192.168.20.1` |
 | PC3 | Fa0 → Switch0 Fa0/4 | 20 — FUNCIONARIOS | `192.168.20.11/24` | `192.168.20.1` |
 | Router0 (1941) | Gig0/0 → Switch0 Gig0/1 (trunk) | 10 and 20 | `Gig0/0.10` = `192.168.10.1/24`, `Gig0/0.20` = `192.168.20.1/24` | — |
+
+> **Correction (2026-11-24, LAB 09):** PC0 is cabled to **Fa0/2** and PC1 to **Fa0/1**, not the reverse as originally written. Found by correlating the DHCP binding table (LAB 09) and the PC0 IPv6 link-local address with the MAC address table in LAB 05; confirmed in Packet Tracer. Both ports are in VLAN 10, so no result changes.
 
 **What changed from LAB 05:** one router, one trunk link, and the PCs moved from the shared `192.168.1.0/24` to one subnet per VLAN. The VLAN assignment of the access ports is unchanged.
 

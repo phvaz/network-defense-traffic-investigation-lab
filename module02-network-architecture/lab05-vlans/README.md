@@ -23,10 +23,12 @@ This lab runs entirely inside the Packet Tracer simulator on the host PC. No VM,
 
 | Device | Port on Switch0 | IP / mask | VLAN (after Part C) |
 |---|---|---|---|
-| PC0 | Fa0/1 | `192.168.1.10/24` | 10 — ADMIN |
-| PC1 | Fa0/2 | `192.168.1.11/24` | 10 — ADMIN |
+| PC0 | Fa0/2 | `192.168.1.10/24` | 10 — ADMIN |
+| PC1 | Fa0/1 | `192.168.1.11/24` | 10 — ADMIN |
 | PC2 | Fa0/3 | `192.168.1.12/24` | 20 — FUNCIONARIOS (employees) |
 | PC3 | Fa0/4 | `192.168.1.13/24` | 20 — FUNCIONARIOS (employees) |
+
+> **Correction (2026-11-24, LAB 09):** PC0 is cabled to **Fa0/2** and PC1 to **Fa0/1**, not the reverse as originally written. Found by correlating the DHCP binding table (LAB 09) and the PC0 IPv6 link-local address with the MAC address table in LAB 05; confirmed in Packet Tracer. Both ports are in VLAN 10, so no result changes.
 
 Switch0 is a Catalyst 2960-24TT (IOS 15.0(2)SE4). PCs are connected with copper straight-through cables. No gateway or DNS is configured, because there is no router yet.
 

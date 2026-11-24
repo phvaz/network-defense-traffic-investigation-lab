@@ -23,13 +23,15 @@ This lab runs entirely inside the Packet Tracer simulator. It starts from the LA
 
 | Device | Switch port | VLAN | IP / mask | Gateway |
 |---|---|---|---|---|
-| PC0 | Fa0/1 | 10 — ADMIN | `192.168.10.10/24` | `192.168.10.1` |
-| PC1 | Fa0/2 | 10 — ADMIN | `192.168.10.11/24` | `192.168.10.1` |
+| PC0 | Fa0/2 | 10 — ADMIN | `192.168.10.10/24` | `192.168.10.1` |
+| PC1 | Fa0/1 | 10 — ADMIN | `192.168.10.11/24` | `192.168.10.1` |
 | PC2 | Fa0/3 | 20 — FUNCIONARIOS (employees) | `192.168.20.10/24` | `192.168.20.1` |
 | PC3 | Fa0/4 | 20 — FUNCIONARIOS (employees) | `192.168.20.11/24` | `192.168.20.1` |
 | **Server0** | **Fa0/5** | **30 — SERVIDORES (servers)** | **`192.168.30.10/24`** | **`192.168.30.1`** |
 | **PC4 (guest)** | **Fa0/6** | **40 — VISITANTES (guests)** | **`192.168.40.10/24`** | **`192.168.40.1`** |
 | Router0 | Gig0/0 ↔ Switch0 Gig0/1 (trunk) | all | `.10.1`, `.20.1`, `.30.1`, `.40.1` on subinterfaces | — |
+
+> **Correction (2026-11-24, LAB 09):** PC0 is cabled to **Fa0/2** and PC1 to **Fa0/1**, not the reverse as originally written. Found by correlating the DHCP binding table (LAB 09) and the PC0 IPv6 link-local address with the MAC address table in LAB 05; confirmed in Packet Tracer. Both ports are in VLAN 10, so no result changes.
 
 New in this lab: Server0, PC4, VLANs 30 and 40, subinterfaces `Gig0/0.30` and `Gig0/0.40`, and a second ACL.
 
