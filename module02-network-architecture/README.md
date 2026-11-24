@@ -22,6 +22,7 @@ LAN and WAN · switches · routers · VLANs · trunking · inter-VLAN routing ·
 | [**LAB 06 — Inter-VLAN Routing (Router-on-a-Stick)**](lab06-inter-vlan-routing/) | Trunking, 802.1Q subinterfaces, one subnet and gateway per VLAN, routed path verified by ping, tracert and TTL | ✅ Complete |
 | [**LAB 07 — ACLs: Filtering Traffic Between VLANs**](lab07-acl/) | Extended ACL, implicit deny, placement near source, stateless side effects, ICMP unreachable vs timeout, hit counters as evidence | ✅ Complete |
 | [**LAB 08 — Servers and Guests VLANs**](lab08-servers-guests/) | VLANs 30/40, four-segment design complete, guest-to-admin segmentation gap found and closed with a summarised guest ACL, `no ip domain-lookup` | ✅ Complete |
+| [**LAB 09 — DHCP: Automatic Addressing per VLAN**](lab09-dhcp/) | Router as DHCP server, one pool per client VLAN, static server, DHCP vs guest ACL, binding table used to correct earlier documentation | ✅ Complete |
 
 ---
 
@@ -41,3 +42,5 @@ LAN and WAN · switches · routers · VLANs · trunking · inter-VLAN routing ·
 - **ACL hit counters corroborate what was attempted,** and are volatile like the MAC table.
 - **Every new segment needs its own policy.** Adding the guest VLAN without an ACL gave guests the same reach as employees.
 - **A summarised deny (`192.168.0.0/16`) protects future internal VLANs automatically.**
+- **The DHCP binding table maps IP → MAC at a point in time.** Joined with the switch MAC table it leads from an IP in an alert to a switch port.
+- **Documentation is a claim, not evidence.** Cross-checking three sources showed two PCs had been documented on swapped ports since LAB 05.

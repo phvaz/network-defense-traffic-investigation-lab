@@ -61,6 +61,7 @@ With switching, routing, a firewall, IPv4 addressing, DHCP, DNS, NAT, ACLs, and 
 | [**LAB 06 — Inter-VLAN Routing (Router-on-a-Stick)**](module02-network-architecture/lab06-inter-vlan-routing/) | 802.1Q trunk and router subinterfaces; one subnet and gateway per VLAN; routed path confirmed by ping, tracert and TTL decrement (128 → 127) | `lab06-intervlan.pkt` (Packet Tracer project, SHA-256 verified) |
 | [**LAB 07 — ACLs: Filtering Traffic Between VLANs**](module02-network-architecture/lab07-acl/) | Extended ACL blocking one VLAN from another; stateless side effect on replies; ICMP unreachable vs timeout; hit counters (8 matches) reconciled with tests | `lab07-acl.pkt` (Packet Tracer project, SHA-256 verified) |
 | [**LAB 08 — Servers and Guests VLANs**](module02-network-architecture/lab08-servers-guests/) | Four-VLAN corporate design complete; guest-to-admin segmentation gap found by testing and closed with a guest ACL; counters reconciled with tests | `lab08-servers-guests.pkt` (Packet Tracer project, SHA-256 verified) |
+| [**LAB 09 — DHCP: Automatic Addressing per VLAN**](module02-network-architecture/lab09-dhcp/) | Router-hosted DHCP per VLAN; why the guest ACL let DHCP through; binding table (IP → MAC) cross-checked with the LAB 05 MAC table, exposing and correcting a documentation error | `lab09-dhcp.pkt` (Packet Tracer project, SHA-256 verified) |
 
 ---
 
