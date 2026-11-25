@@ -2,7 +2,7 @@
 
 **A hands-on lab building network knowledge for security investigation: from how two hosts talk on a LAN, to traffic analysis, reconnaissance, detection, and a simulated DFIR network investigation.**
 
-`VirtualBox · Kali Linux · Windows 10` · `Wireshark · Nmap · Suricata` · `RFC 3227 · ISO/IEC 27037 · NIST SP 800-86 / 800-61` · `Status: In progress — Module 02`
+`VirtualBox · Kali Linux · Windows 10` · `Wireshark · Nmap · Suricata` · `RFC 3227 · ISO/IEC 27037 · NIST SP 800-86 / 800-61` · `Status: In progress — Module 02 complete, Module 03 next`
 
 ---
 
@@ -26,7 +26,7 @@ Every lab follows the same discipline used in my forensic investigations:
 |---|---|---|---|
 | [**00 — Lab Environment**](module00-lab-environment/) | VMs, VirtualBox network modes, isolation | VirtualBox | ✅ Complete |
 | [**01 — Networking Fundamentals**](module01-networking-fundamentals/) | IPv4, subnetting, MAC, ARP, ICMP, DHCP, DNS, TCP/UDP | `ip`, `ipconfig`, Wireshark | ✅ Complete |
-| [**02 — Network Architecture**](module02-network-architecture/) | VLANs, trunking, inter-VLAN routing, NAT, ACLs | Cisco Packet Tracer | 🟡 In progress |
+| [**02 — Network Architecture**](module02-network-architecture/) | VLANs, trunking, inter-VLAN routing, NAT, ACLs | Cisco Packet Tracer | ✅ Complete |
 | [**03 — Traffic Analysis**](module03-traffic-analysis/) | PCAP analysis, TCP/TLS handshakes, DNS, HTTP, C2/exfiltration patterns | Wireshark | ⬜ Planned |
 | [**04 — Network Reconnaissance**](module04-network-reconnaissance/) | Host discovery, port/service/OS detection, exposure mapping | Nmap | ⬜ Planned |
 | [**05 — Network Defense**](module05-network-defense/) | Firewalling, IDS rules, alert triage, alert ↔ PCAP correlation | nftables/UFW, Suricata | ⬜ Planned |
@@ -62,6 +62,7 @@ With switching, routing, a firewall, IPv4 addressing, DHCP, DNS, NAT, ACLs, and 
 | [**LAB 07 — ACLs: Filtering Traffic Between VLANs**](module02-network-architecture/lab07-acl/) | Extended ACL blocking one VLAN from another; stateless side effect on replies; ICMP unreachable vs timeout; hit counters (8 matches) reconciled with tests | `lab07-acl.pkt` (Packet Tracer project, SHA-256 verified) |
 | [**LAB 08 — Servers and Guests VLANs**](module02-network-architecture/lab08-servers-guests/) | Four-VLAN corporate design complete; guest-to-admin segmentation gap found by testing and closed with a guest ACL; counters reconciled with tests | `lab08-servers-guests.pkt` (Packet Tracer project, SHA-256 verified) |
 | [**LAB 09 — DHCP: Automatic Addressing per VLAN**](module02-network-architecture/lab09-dhcp/) | Router-hosted DHCP per VLAN; why the guest ACL let DHCP through; binding table (IP → MAC) cross-checked with the LAB 05 MAC table, exposing and correcting a documentation error | `lab09-dhcp.pkt` (Packet Tracer project, SHA-256 verified) |
+| [**LAB 10 — NAT: Sharing One Public Address**](module02-network-architecture/lab10-nat/) | Simulated ISP and internet server; before/after test showing private addresses cannot get replies; NAT overload (PAT); translation table as the volatile record linking a public address back to an internal host | `lab10-nat.pkt` (Packet Tracer project, SHA-256 verified) |
 
 ---
 

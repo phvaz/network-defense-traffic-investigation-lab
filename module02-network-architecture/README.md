@@ -1,6 +1,6 @@
 # Module 02 — Network Architecture
 
-`Status: In progress`
+`Status: Complete`
 
 ## Objective
 
@@ -23,6 +23,7 @@ LAN and WAN · switches · routers · VLANs · trunking · inter-VLAN routing ·
 | [**LAB 07 — ACLs: Filtering Traffic Between VLANs**](lab07-acl/) | Extended ACL, implicit deny, placement near source, stateless side effects, ICMP unreachable vs timeout, hit counters as evidence | ✅ Complete |
 | [**LAB 08 — Servers and Guests VLANs**](lab08-servers-guests/) | VLANs 30/40, four-segment design complete, guest-to-admin segmentation gap found and closed with a summarised guest ACL, `no ip domain-lookup` | ✅ Complete |
 | [**LAB 09 — DHCP: Automatic Addressing per VLAN**](lab09-dhcp/) | Router as DHCP server, one pool per client VLAN, static server, DHCP vs guest ACL, binding table used to correct earlier documentation | ✅ Complete |
+| [**LAB 10 — NAT: Sharing One Public Address**](lab10-nat/) | Simulated ISP, default route, private addresses vs the internet (before/after), NAT overload (PAT), translation table as attribution evidence | ✅ Complete |
 
 ---
 
@@ -44,3 +45,5 @@ LAN and WAN · switches · routers · VLANs · trunking · inter-VLAN routing ·
 - **A summarised deny (`192.168.0.0/16`) protects future internal VLANs automatically.**
 - **The DHCP binding table maps IP → MAC at a point in time.** Joined with the switch MAC table it leads from an IP in an alert to a switch port.
 - **Documentation is a claim, not evidence.** Cross-checking three sources showed two PCs had been documented on swapped ports since LAB 05.
+- **Private addresses cannot get replies from the internet.** NAT on the edge router swaps them for the one public address, and every inside host shares it (PAT).
+- **The NAT translation table is the only link from a public IP and port back to an internal host,** and it is the most volatile table in the module. Attribution behind NAT needs logged translations with exact port and time.
