@@ -24,7 +24,7 @@ Packet capture · PCAP · TCP handshake and flags · retransmissions · DNS · H
 |---|---|---|
 | [**LAB 11 — TCP in Depth: Handshakes, Retransmissions and Capture Integrity**](lab11-tcp-in-depth/) | Handshake and teardown, ephemeral ports, browser side-traffic (favicon, 304, pre-connections), induced packet loss, duplicate ACKs and fast retransmission, capture-point artefacts, a hash taken too early | ✅ Complete |
 | [**LAB 12 — HTTP: Reading Streams and Extracting Files**](lab12-http-streams-and-objects/) | Fake intranet login over cleartext HTTP; credentials and session cookie read with Follow TCP Stream; file rebuilt with Export Objects and hash-matched to the original; client headers as a (forgeable) profile | ✅ Complete |
-| LAB 13 — TLS: Analysing What Cannot Be Read | Handshake, SNI, certificates, timing and volume | ⬜ Planned |
+| [**LAB 13 — TLS: What Encryption Hides and What Still Leaks**](lab13-tls-metadata/) | The LAB 12 login over HTTPS: SNI, timing, volume and JA4 visible without keys; content recovered with the browser key log; file hash-matched from inside TLS; 15 `Certificate Unknown` alerts explained; key log filtered before publishing | ✅ Complete |
 | LAB 14 — Suspicious Patterns | Port scan, beaconing, exfiltration-like transfers | ⬜ Planned |
 | LAB 15 — Investigation Challenge | Analyse a mixed PCAP and write a technical report | ⬜ Planned |
 
@@ -38,3 +38,4 @@ Packet capture · PCAP · TCP handshake and flags · retransmissions · DNS · H
 - **Hash only after the capture process has exited.**
 - **Cleartext HTTP exposes credentials, session cookies and whole files;** a file rebuilt from a capture can be hash-matched to the original.
 - **A session cookie authenticates on its own,** so stealing it is as good as stealing the password.
+- **HTTPS hides the content, not the envelope:** site name (SNI), timing, volume and client fingerprint stay visible. Decryption needs keys taken from an endpoint.
