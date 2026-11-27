@@ -2,7 +2,7 @@
 
 **A hands-on lab building network knowledge for security investigation: from how two hosts talk on a LAN, to traffic analysis, reconnaissance, detection, and a simulated DFIR network investigation.**
 
-`VirtualBox · Kali Linux · Windows 10` · `Wireshark · Nmap · Suricata` · `RFC 3227 · ISO/IEC 27037 · NIST SP 800-86 / 800-61` · `Status: In progress — Module 03 (Traffic Analysis) underway`
+`VirtualBox · Kali Linux · Windows 10` · `Wireshark · Nmap · Suricata` · `RFC 3227 · ISO/IEC 27037 · NIST SP 800-86 / 800-61` · `Status: In progress — Modules 00–03 complete, Module 04 (Reconnaissance) next`
 
 ---
 
@@ -27,7 +27,7 @@ Every lab follows the same discipline used in my forensic investigations:
 | [**00 — Lab Environment**](module00-lab-environment/) | VMs, VirtualBox network modes, isolation | VirtualBox | ✅ Complete |
 | [**01 — Networking Fundamentals**](module01-networking-fundamentals/) | IPv4, subnetting, MAC, ARP, ICMP, DHCP, DNS, TCP/UDP | `ip`, `ipconfig`, Wireshark | ✅ Complete |
 | [**02 — Network Architecture**](module02-network-architecture/) | VLANs, trunking, inter-VLAN routing, NAT, ACLs | Cisco Packet Tracer | ✅ Complete |
-| [**03 — Traffic Analysis**](module03-traffic-analysis/) | PCAP analysis, TCP/TLS handshakes, DNS, HTTP, C2/exfiltration patterns | Wireshark | 🔄 In progress |
+| [**03 — Traffic Analysis**](module03-traffic-analysis/) | PCAP analysis, TCP/TLS handshakes, DNS, HTTP, C2/exfiltration patterns | Wireshark | ✅ Complete |
 | [**04 — Network Reconnaissance**](module04-network-reconnaissance/) | Host discovery, port/service/OS detection, exposure mapping | Nmap | ⬜ Planned |
 | [**05 — Network Defense**](module05-network-defense/) | Firewalling, IDS rules, alert triage, alert ↔ PCAP correlation | nftables/UFW, Suricata | ⬜ Planned |
 | [**06 — DFIR Network Investigation**](module06-dfir-investigation/) | Simulated incident: timeline, IOCs, hypotheses, formal report | All of the above | ⬜ Planned |
@@ -67,6 +67,7 @@ With switching, routing, a firewall, IPv4 addressing, DHCP, DNS, NAT, ACLs, and 
 | [**LAB 12 — HTTP: Reading Streams and Extracting Files**](module03-traffic-analysis/lab12-http-streams-and-objects/) | Cleartext login and session cookie recovered with Follow TCP Stream; `clientes.csv` rebuilt with Export Objects, byte-identical to the original (SHA-256); navigation path from Referer; client profile from headers, with its limits | `lab12-http.pcap` (SHA-256 verified) |
 | [**LAB 13 — TLS: What Encryption Hides and What Still Leaks**](module03-traffic-analysis/lab13-tls-metadata/) | Same login as LAB 12 over HTTPS: SNI, timing, volume and JA4 visible without keys; credentials, cookie and file recovered only with the browser key log (file hash-matched); 15 encrypted `Certificate Unknown` alerts read after decryption; key log filtered to the capture before publishing | `lab13-tls.pcap` + filtered key log (SHA-256 verified) |
 | [**LAB 14 — Suspicious Patterns: Scan, Beaconing and Exfiltration**](module03-traffic-analysis/lab14-suspicious-patterns/) | Three attack behaviours read from traffic shape alone: SYN scan silently dropped by the firewall, PowerShell beacon to a fake C2 every 10.2 s, 5 MiB one-way upload hash-matched on both ends; capture gaps recognised as a capture-side limit | `lab14-suspeito.pcap` (SHA-256 verified) |
+| [**LAB 15 — Investigation Challenge: The ACME Incident**](module03-traffic-analysis/lab15-investigation-challenge/) | Worked example on a synthetic capture: patient zero, delivery, jittered C2 beacon vs a benign periodic updater, scan and collection on C2 command, exfiltrated file hash-matched to its source; timeline, IOCs, ATT&CK mapping | `lab15-acme-incident.pcap` + generator script (SHA-256 verified, reproducible) |
 
 ---
 
