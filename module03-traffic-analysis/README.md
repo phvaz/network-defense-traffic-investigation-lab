@@ -1,6 +1,6 @@
 # Module 03 — Network Traffic Analysis
 
-`Status: In progress`
+`Status: Complete`
 
 ## Objective
 
@@ -26,7 +26,7 @@ Packet capture · PCAP · TCP handshake and flags · retransmissions · DNS · H
 | [**LAB 12 — HTTP: Reading Streams and Extracting Files**](lab12-http-streams-and-objects/) | Fake intranet login over cleartext HTTP; credentials and session cookie read with Follow TCP Stream; file rebuilt with Export Objects and hash-matched to the original; client headers as a (forgeable) profile | ✅ Complete |
 | [**LAB 13 — TLS: What Encryption Hides and What Still Leaks**](lab13-tls-metadata/) | The LAB 12 login over HTTPS: SNI, timing, volume and JA4 visible without keys; content recovered with the browser key log; file hash-matched from inside TLS; 15 `Certificate Unknown` alerts explained; key log filtered before publishing | ✅ Complete |
 | [**LAB 14 — Suspicious Patterns: Scan, Beaconing and Exfiltration**](lab14-suspicious-patterns/) | SYN scan blocked silently by the firewall (2,000 probes, 0 replies); 12 PowerShell check-ins to a fake C2 at 10.2 s intervals; 5 MiB upload with an 850:1 out/in ratio, hash-matched on both ends; a capture that missed 4 % of the upload | ✅ Complete |
-| LAB 15 — Investigation Challenge | Analyse a mixed PCAP and write a technical report | ⬜ Planned |
+| [**LAB 15 — Investigation Challenge: The ACME Incident**](lab15-investigation-challenge/) | Worked example on a synthetic, reproducible capture: phishing download, jittered HTTP beacon (a benign periodic look-alike ruled out), ARP sweep and port scan on C2 command, file pulled from a file server and exfiltrated to the C2 (hash-matched); timeline, IOCs, ATT&CK mapping, recommendations | ✅ Complete |
 
 ---
 
@@ -39,4 +39,5 @@ Packet capture · PCAP · TCP handshake and flags · retransmissions · DNS · H
 - **Cleartext HTTP exposes credentials, session cookies and whole files;** a file rebuilt from a capture can be hash-matched to the original.
 - **A session cookie authenticates on its own,** so stealing it is as good as stealing the password.
 - **HTTPS hides the content, not the envelope:** site name (SNI), timing, volume and client fingerprint stay visible. Decryption needs keys taken from an endpoint.
+- **A report ties signals into a story:** order of events, matching hashes and C2 commands that precede each action turn separate patterns into one incident.
 - **Attacks have shapes:** a scan fans out across ports, a beacon ticks like a clock, exfiltration flows one way. Each has innocent look-alikes; together on one host they make a case.
